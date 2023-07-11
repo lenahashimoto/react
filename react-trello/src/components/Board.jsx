@@ -10,20 +10,18 @@ const reorderList = (target, source, destination) => {
 
 export const Board = () => {
   const [list, setList] = useState([{id:"0", draggableId: "item0", key: 0}]);
-  const handleDragListEnd = (res) => {
+  const handleDragEnd = (res) => {
     reorderList(list, res.source.index, res.destination.index);
-
-  }
+    setList(list);
+}
 
   return (
-    <DragDropContext onDragEnd={handleDragListEnd}>
+    <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="droppableList" direction="horizontal">
         {(provided) => (
           <div className='board' {...provided.droppableProps} ref={provided.innerRef}>
                  {list.map((listItem, index) => (
-                 <div key={index}>
-                 <List index={index} list={list} setList={setList} listItem={listItem} />
-                 </div>
+                 <List index={index} key={listItem.id} list={list} setList={setList} listItem={listItem} />
                  ))
                  }
                  <AddListButton list={list} setList={setList} />
